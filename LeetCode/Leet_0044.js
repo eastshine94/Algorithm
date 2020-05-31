@@ -4,23 +4,35 @@
  * @return {boolean}
  */
 var isMatch = function(s, p) {
-    let arr = p.split("");
-    let set = new Set();
-    for(let i = arr.length-1; i>0; i--){
-        let val1 = arr[i];
-        let val2 = arr[i-1];
-        if(val1 === "*" && val1 === val2){
-            arr.splice(i,1);
+    const sLen = s.length;
+    const pLen = p.length;
+    let sIdx = 0, pIdx =0, starIdx= -1, matchIdx = -1;
+    
+    while(sIdx<sLen){
+        let sChar = s.charAt(sIdx);
+        let pChar = p.charAt(pIdx);
+        if(sChar === pChar || pChar==="?"){
+            sIdx++;
+            pIdx++;
+            if(pIdx === pLen && sIdx === sLen) return true;
         }
-    }
-    for(let i=0; i<s.length; i++){
-        let c = s.charAt(i);
-        set.add(c);
+        else if(pChar === "*"){
+            starIdx = pIdx;
+            matchIdx = sIdx;
+            pIdx++;
+            if(!p.charAt(pIdx)) return true;
+        }
+        else if(starIdx !== -1){
+            pIdx = starIdx + 1;
+            matchIdx++;
+            sIdx = matchIdx;
+        }
+        else return false;
     }
 
-    let key = [...set.keys()].join("");
-    p = arr.join("");
-    p = p.replace(/\?/gi, `[${key}]`);
-    p = p.replace(/\*/gi, `([${key}])*`);
-    return s.match(`^${p}$`) ? true : false;
+    while(pIdx < pLen && p[pIdx] === '*'){
+        pIdx++;
+    }
+    return pIdx === pLen;
+ 
 };
