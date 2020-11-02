@@ -2,27 +2,23 @@
  * @param {string} s
  * @return {number}
  */
-let answer;
+
 var numDecodings = function(s) {
-    answer = 0;
-    getAnswer(s, 0);
-    return answer;
+    const dp = [];
+    dp[0] = 1;
+    dp[1] = s.charAt(0) === '0' ? 0 : 1;
+    for(let i=2; i<=s.length; i++){
+        const oneDigit  = parseInt(s.charAt(i-1));
+        const twoDigit = parseInt(s.slice(i-2, i));
+        dp[i] = 0;
+        if(oneDigit > 0){
+            dp[i] += dp[i-1];
+        }
+        if(twoDigit>=10 && twoDigit<=26){
+            dp[i] += dp[i-2];
+        }
+    }  
+    
+    return dp[s.length];
 };
 
-const getAnswer = (s, idx) => {
-    if(s.length <= idx){
-        answer++;
-        return;
-    }
-    if(s.charAt(idx) === "0"){
-        return;
-    }
-    getAnswer(s, idx+1);
-    
-    if(s.length-2 >= idx ){
-        const substr = s.substr(idx, 2);
-        if(substr <= "26"){
-            getAnswer(s, idx+2);
-        }
-    }
-}
