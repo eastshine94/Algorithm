@@ -10,16 +10,10 @@
  * @param {number} n
  * @return {TreeNode[]}
  */
-let answer;
+
 var generateTrees = function(n) {
-    answer = [];
-    if(n === 0) return answer;
-    const arr = [...Array(n).keys()].map(val => val + 1);
-    getBST(arr, n, 1);
 };
 
-const getBST = (arr, n, count) => {
-    if(count >  n){
-        return null;
-    }
+const getBST = (n, count) => {
+    
 }
