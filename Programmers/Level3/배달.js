@@ -1,5 +1,5 @@
 function solution(N, road, K) {
-  const set = new Set();
+  const decidedNode = new Set();
   const minDists = new Array(N).fill(999999999);
   minDists[0] = 0;
   const roadArr = Array.from(Array(N), () => new Array(N).fill(999999999));
@@ -17,7 +17,7 @@ function solution(N, road, K) {
     let min = 999999999;
     let minIdx = 0;
     for (let j = 1; j < N; j++) {
-      if (set.has(j)) continue;
+      if (decidedNode.has(j)) continue;
       const dist = roadArr[i][j] + selectedMinDist;
       const currDist = minDists[j];
       if (dist >= 999999999) {
@@ -35,7 +35,7 @@ function solution(N, road, K) {
         minIdx = j;
       }
     }
-    set.add(minIdx);
+    decidedNode.add(minIdx);
     selectedMinDist = min;
     i = minIdx;
     count++;
