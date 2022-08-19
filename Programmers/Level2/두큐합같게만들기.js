@@ -13,28 +13,20 @@ function solution(queue1, queue2) {
   }
   const target = sum / 2;
 
-  const bfs = [[0, queue1.length, sum1]];
-  const map = {};
-  while (bfs.length > 0) {
-    const len = bfs.length;
+  let s = 0;
+  let e = queue1.length;
 
-    for (let i = 0; i < len; i++) {
-      const [j, k, sum] = bfs.shift();
+  while (s <= e && e < n) {
+    if (sum1 === target) {
+      return answer;
+    }
 
-      if (sum === target) {
-        return answer;
-      }
-      const key1 = `${j + 1},${k}`;
-      const key2 = `${j},${k + 1}`;
-      if (sum > target && j + 1 < k && !map[key1]) {
-        bfs.push([j + 1, k, sum - queue[j]]);
-        map[key1] = true;
-      }
-
-      if (sum < target && k + 1 < n && !map[key2]) {
-        bfs.push([j, k + 1, sum + queue[k]]);
-        map[key2] = true;
-      }
+    if (sum1 > target) {
+      sum1 -= queue[s];
+      s++;
+    } else if (sum1 < target) {
+      sum1 += queue[e];
+      e++;
     }
     answer++;
   }
